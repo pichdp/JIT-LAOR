@@ -1,5 +1,5 @@
-// ✅ Import Supabase (Ensure this is at the TOP)
-const { createClient } = supabase;
+// ✅ Import Supabase (Make sure this script is included in the HTML)
+import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
 
 // ✅ Initialize Supabase
 const supabaseUrl = "https://ffuwwncszlfjwdttsbnb.supabase.co";
@@ -7,14 +7,16 @@ const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYm
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
-// ✅ Show the correct form when clicking the button
+// ✅ Ensure functions are declared AFTER Supabase is initialized
+
+// Function to show the correct form
 function showForm(formId) {
     document.getElementById("signup-form").style.display = "none";
     document.getElementById("login-form").style.display = "none";
     document.getElementById(formId).style.display = "block";
 }
 
-// ✅ Sign Up Function
+// Function to handle user sign-up
 async function signUp() {
     let email = document.getElementById("signup-email").value;
     let password = document.getElementById("signup-password").value;
@@ -31,7 +33,7 @@ async function signUp() {
     }
 }
 
-// ✅ Log In Function
+// Function to handle user login
 async function logIn() {
     let email = document.getElementById("login-email").value;
     let password = document.getElementById("login-password").value;
@@ -47,3 +49,9 @@ async function logIn() {
         alert("Logged In Successfully!");
     }
 }
+
+// Ensure the page is fully loaded before assigning event listeners
+document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("signup-button").onclick = signUp;
+    document.getElementById("login-button").onclick = logIn;
+});
