@@ -3,40 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Auth with Supabase</title>
+    <title>Home Page</title>
     <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
 </head>
 <body>
 
-    <div class="container">
-        <h2>Welcome to My Website</h2>
-        <div id="auth-container">
-            <button onclick="showForm('login')">Login</button>
-            <button onclick="showForm('signup')">Sign Up</button>
-        </div>
+    <h1>Welcome to My Website</h1>
 
-        <div id="login-form" class="hidden">
-            <h3>Login</h3>
-            <input type="email" id="login-email" placeholder="Email">
-            <input type="password" id="login-password" placeholder="Password">
-            <button onclick="login()">Login</button>
-        </div>
+    <button onclick="showForm('signup-form')">Sign Up</button>
+    <button onclick="showForm('login-form')">Log In</button>
 
-        <div id="signup-form" class="hidden">
-            <h3>Sign Up</h3>
-            <input type="email" id="signup-email" placeholder="Email">
-            <input type="password" id="signup-password" placeholder="Password">
-            <button onclick="signUp()">Sign Up</button>
-        </div>
-
-        <div id="user-info" class="hidden">
-            <p>Logged in as: <span id="user-email"></span></p>
-            <button onclick="logout()">Logout</button>
-        </div>
+    <div id="signup-form" class="form-container" style="display: none;">
+        <h2>Sign Up</h2>
+        <input type="email" id="signup-email" placeholder="Email">
+        <input type="password" id="signup-password" placeholder="Password">
+        <button onclick="signUp()">Create Account</button>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    <script src="script.js"></script>
+    <div id="login-form" class="form-container" style="display: none;">
+        <h2>Log In</h2>
+        <input type="email" id="login-email" placeholder="Email">
+        <input type="password" id="login-password" placeholder="Password">
+        <button onclick="logIn()">Login</button>
+    </div>
 
 </body>
 </html>
