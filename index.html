@@ -3,41 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social Media Login</title>
+    <title>Auth with Supabase</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to My Social Media</h1>
-        <button class="btn" onclick="showForm('login')">Login</button>
-        <button class="btn" onclick="showForm('signup')">Sign Up</button>
-    </div>
 
-    <!-- Login Form -->
-    <div class="form-container" id="login-form">
-        <div class="form-box">
-            <h2>Login</h2>
+    <div class="container">
+        <h2>Welcome to My Website</h2>
+        <div id="auth-container">
+            <button onclick="showForm('login')">Login</button>
+            <button onclick="showForm('signup')">Sign Up</button>
+        </div>
+
+        <div id="login-form" class="hidden">
+            <h3>Login</h3>
             <input type="email" id="login-email" placeholder="Email">
             <input type="password" id="login-password" placeholder="Password">
             <button onclick="login()">Login</button>
-            <p>Don't have an account? <span onclick="showForm('signup')">Sign up</span></p>
-            <button class="close-btn" onclick="closeForm()">X</button>
         </div>
-    </div>
 
-    <!-- Sign Up Form -->
-    <div class="form-container" id="signup-form">
-        <div class="form-box">
-            <h2>Sign Up</h2>
-            <input type="text" id="signup-name" placeholder="Full Name">
+        <div id="signup-form" class="hidden">
+            <h3>Sign Up</h3>
             <input type="email" id="signup-email" placeholder="Email">
             <input type="password" id="signup-password" placeholder="Password">
-            <button onclick="signup()">Sign Up</button>
-            <p>Already have an account? <span onclick="showForm('login')">Login</span></p>
-            <button class="close-btn" onclick="closeForm()">X</button>
+            <button onclick="signUp()">Sign Up</button>
+        </div>
+
+        <div id="user-info" class="hidden">
+            <p>Logged in as: <span id="user-email"></span></p>
+            <button onclick="logout()">Logout</button>
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="script.js"></script>
+
 </body>
 </html>
