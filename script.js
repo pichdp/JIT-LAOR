@@ -1,74 +1,47 @@
-// Initialize Supabase
-const supabaseUrl = "YOUR_SUPABASE_URL";
-const supabaseAnonKey = "YOUR_SUPABASE_ANON_KEY";
-const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
+// ✅ Initialize Supabase correctly using environment variables
+const { createClient } = supabase;
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-// Function to sign up a new user
+const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
+// ✅ Show the correct form when clicking the button
+function showForm(formId) {
+    document.getElementById("signup-form").style.display = "none";
+    document.getElementById("login-form").style.display = "none";
+    document.getElementById(formId).style.display = "block";
+}
+
+// ✅ Sign Up Function
 async function signUp() {
-    const email = document.getElementById("signup-email").value;
-    const password = document.getElementById("signup-password").value;
-    const username = prompt("Enter your username:");
+    let email = document.getElementById("signup-email").value;
+    let password = document.getElementById("signup-password").value;
 
-    // Sign up the user
-    const { data, error } = await supabase.auth.signUp({ email, password });
+    const { user, error } = await supabase.auth.signUp({
+        email: email,
+        password: password
+    });
 
     if (error) {
         alert("Error: " + error.message);
-        return;
-    }
-
-    // Store user data in Supabase database
-    const { data: userData, error: insertError } = await supabase
-        .from("users")
-        .insert([{ email: email, username: username }]);
-
-    if (insertError) {
-        alert("Error saving user: " + insertError.message);
     } else {
-        alert("Signup successful! Check your email to verify.");
+        alert("Sign Up Successful! Check your email to confirm.");
     }
 }
 
-// Function to log in an existing user
-async function login() {
-    const email = document.getElementById("login-email").value;
-    const password = document.getElementById("login-password").value;
+// ✅ Log In Function
+async function logIn() {
+    let email = document.getElementById("login-email").value;
+    let password = document.getElementById("login-password").value;
 
-    // Log in the user
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+    const { user, error } = await supabase.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
 
     if (error) {
-        alert("Login failed: " + error.message);
-        return;
-    }
-
-    // Fetch user details from the database
-    const { data: user, error: fetchError } = await supabase
-        .from("users")
-        .select("username")
-        .eq("email", email)
-        .single();
-
-    if (fetchError) {
-        alert("Error fetching user data: " + fetchError.message);
-        return;
-    }
-
-    document.getElementById("auth-container").classList.add("hidden");
-    document.getElementById("login-form").classList.add("hidden");
-    document.getElementById("signup-form").classList.add("hidden");
-    document.getElementById("user-info").classList.remove("hidden");
-
-    document.getElementById("user-email").innerText = `${user.username} (${email})`;
-}
-
-// Function to log out the user
-async function logout() {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
-        alert("Logout failed: " + error.message);
+        alert("Login Failed: " + error.message);
     } else {
-        alert("You have logged out.");
-        window.location.reload();
+        alert("Logged In Successfully!");
     }
 }
