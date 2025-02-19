@@ -3,54 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login & Signup | My Website</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Social Media Login</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
     <div class="container">
-        <!-- ✅ Logo on Top Left -->
-        <img src="logo.png" alt="Logo" class="logo">
-
-        <div class="form-box">
-            <h2>Welcome Back</h2>
-            <p>Login or sign up to continue</p>
-
-            <div id="form-container">
-                <!-- ✅ LOGIN FORM -->
-                <form id="login-form">
-                    <input type="text" id="login-username-email" placeholder="Enter username or email" required>
-                    <input type="password" id="login-password" placeholder="Enter your password" required>
-                    
-                    <!-- ✅ Show/Hide Password -->
-                    <label>
-                        <input type="checkbox" id="show-password-login"> Show Password
-                    </label>
-
-                    <button type="submit">Login</button>
-                    <p>Don't have an account? <a href="#" onclick="toggleForm()">Sign Up</a></p>
-                </form>
-
-                <!-- ✅ SIGNUP FORM -->
-                <form id="signup-form" style="display: none;">
-                    <input type="text" id="signup-username" placeholder="Enter a username" required>
-                    <input type="email" id="signup-email" placeholder="Enter your email" required>
-                    <input type="password" id="signup-password" placeholder="Enter your password" required>
-                    
-                    <!-- ✅ Show/Hide Password -->
-                    <label>
-                        <input type="checkbox" id="show-password-signup"> Show Password
-                    </label>
-
-                    <button type="submit">Sign Up</button>
-                    <p>Already have an account? <a href="#" onclick="toggleForm()">Login</a></p>
-                </form>
-            </div>
+        <h1>Welcome to My Social Media</h1>
+        <button id="showLogin">Login</button>
+        <button id="showSignup">Sign Up</button>
+        
+        <div id="formContainer" class="hidden">
+            <h2 id="formTitle">Login</h2>
+            <input type="email" id="email" placeholder="Email">
+            <input type="password" id="password" placeholder="Password">
+            <button id="submitForm">Submit</button>
         </div>
     </div>
 
-    <!-- ✅ Load Supabase Before Script.js -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="script.js" defer></script> <!-- ✅ Use defer to ensure proper loading -->
+    <script src="script.js"></script>
 </body>
 </html>
