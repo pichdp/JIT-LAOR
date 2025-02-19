@@ -1,227 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up | My Website</title>
-    <style>
-        /* ✅ General Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, sans-serif;
-        }
-
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background: linear-gradient(90deg, #6a11cb, #2575fc);
-        }
-
-        /* ✅ Logo Styling */
-        .logo {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-        }
-
-        .logo img {
-            width: 50px;
-            height: auto;
-        }
-
-        /* ✅ Form Container */
-        .container {
-            width: 90%;
-            max-width: 400px;
-            padding: 20px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
-
-        h2 {
-            margin-bottom: 10px;
-        }
-
-        p {
-            color: #666;
-            font-size: 14px;
-            margin-bottom: 20px;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        input {
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            font-size: 16px;
-        }
-
-        button {
-            background-color: #6a11cb;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        button:hover {
-            background-color: #2575fc;
-        }
-
-        label {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            font-size: 14px;
-        }
-
-        .hidden {
-            display: none;
-        }
-    </style>
+    <title>Login | Sign Up</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <!-- ✅ Logo at Top Left -->
+
+    <!-- Logo at the Top Left -->
     <div class="logo">
         <img src="logo.png" alt="Website Logo">
     </div>
 
     <div class="container">
-        <h2>Welcome Back</h2>
-        <p>Login or sign up to continue</p>
+        <div class="form-box">
+            <h2>Welcome Back</h2>
+            <p>Login or sign up to continue</p>
 
-        <!-- Login Form -->
-        <form id="login-form">
-            <input type="text" id="login-email" placeholder="Enter your username or email" required>
-            <input type="password" id="login-password" placeholder="Enter your password" required class="password-input">
-            <button type="submit">Login</button>
-            <p>Don't have an account? <a href="#" onclick="toggleForm()">Sign Up</a></p>
-        </form>
+            <div id="form-container">
+                <!-- LOGIN FORM -->
+                <form id="login-form">
+                    <input type="text" id="login-username-email" placeholder="Enter your username or email" required>
+                    <input type="password" id="login-password" class="password-input" placeholder="Enter your password" required>
+                    <label>
+                        <input type="checkbox" id="show-password"> Show Password
+                    </label>
+                    <button type="submit" id="showLogin">Login</button>
+                    <p>Don't have an account? <a href="#" onclick="toggleForm()">Sign Up</a></p>
+                </form>
 
-        <!-- Signup Form -->
-        <form id="signup-form" class="hidden">
-            <input type="text" id="signup-username" placeholder="Enter a username" required>
-            <input type="email" id="signup-email" placeholder="Enter your email" required>
-            <input type="password" id="signup-password" placeholder="Enter your password" required class="password-input">
-            <input type="password" id="confirm-password" placeholder="Confirm your password" required class="password-input">
-            <label>
-                <input type="checkbox" id="show-password"> Show Password
-            </label>
-            <button type="submit">Sign Up</button>
-            <p>Already have an account? <a href="#" onclick="toggleForm()">Login</a></p>
-        </form>
+                <!-- SIGNUP FORM -->
+                <form id="signup-form" style="display: none;">
+                    <input type="text" id="signup-username" placeholder="Choose a username" required>
+                    <input type="email" id="signup-email" placeholder="Enter your email" required>
+                    <input type="password" id="signup-password" class="password-input" placeholder="Enter your password (min 6 characters)" required>
+                    <label>
+                        <input type="checkbox" id="show-password"> Show Password
+                    </label>
+                    <button type="submit" id="showSignup">Sign Up</button>
+                    <p>Already have an account? <a href="#" onclick="toggleForm()">Login</a></p>
+                </form>
+            </div>
+        </div>
     </div>
 
-    <!-- ✅ Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-    <script>
-        // ✅ Initialize Supabase
-        const supabaseUrl = "https://ffuwwncszlfjwdttsbnb.supabase.co";
-        const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmdXd3bmNzemxmandkdHRzYm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5MTExNzYsImV4cCI6MjA1NTQ4NzE3Nn0.YZDN4nc1kJpSNgnYE7NVwdGIMxM6TE7Ss9S_jhFDVqM";
-        const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
-
-        // ✅ Toggle between login and signup form
-        function toggleForm() {
-            document.getElementById("login-form").classList.toggle("hidden");
-            document.getElementById("signup-form").classList.toggle("hidden");
-        }
-
-        // ✅ Show/Hide Password Toggle
-        document.getElementById("show-password").addEventListener("change", function () {
-            let passwordFields = document.querySelectorAll(".password-input");
-            passwordFields.forEach(field => {
-                field.type = this.checked ? "text" : "password";
-            });
-        });
-
-        // ✅ Handle User Signup (Save Username in Database)
-        document.getElementById("signup-form").addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            const username = document.getElementById("signup-username").value.trim();
-            const email = document.getElementById("signup-email").value.trim();
-            const password = document.getElementById("signup-password").value.trim();
-            const confirmPassword = document.getElementById("confirm-password").value.trim();
-
-            // 🔸 Validate Password Length
-            if (password.length < 6) {
-                alert("Password must be at least 6 characters long.");
-                return;
-            }
-
-            // 🔸 Validate Password Match
-            if (password !== confirmPassword) {
-                alert("Passwords do not match!");
-                return;
-            }
-
-            // 🔸 Sign Up User in Supabase Authentication
-            let { data, error } = await supabase.auth.signUp({
-                email,
-                password,
-                options: {
-                    data: { username }
-                }
-            });
-
-            if (error) {
-                alert("Signup failed: " + error.message);
-            } else {
-                alert("Signup successful! Please check your email to confirm.");
-            }
-        });
-
-        // ✅ Handle User Login (Accepts Username or Email)
-        document.getElementById("login-form").addEventListener("submit", async (e) => {
-            e.preventDefault();
-
-            let loginInput = document.getElementById("login-email").value.trim();
-            const password = document.getElementById("login-password").value.trim();
-
-            let email = loginInput;
-
-            // 🔸 If user enters a username, find the corresponding email
-            if (!loginInput.includes("@")) {
-                let { data: user, error } = await supabase
-                    .from("users")
-                    .select("email")
-                    .eq("username", loginInput)
-                    .single();
-
-                if (!user) {
-                    alert("Username not found!");
-                    return;
-                }
-                email = user.email;
-            }
-
-            // 🔸 Attempt to Log In
-            let { data, error } = await supabase.auth.signInWithPassword({ email, password });
-
-            if (error) {
-                alert("Login failed: " + error.message);
-            } else {
-                alert("Login successful!");
-                window.location.href = "/dashboard"; // Redirect to dashboard
-            }
-        });
-    </script>
+    <script src="script.js"></script>
 </body>
-
 </html>
