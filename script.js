@@ -1,4 +1,4 @@
-// ✅ Initialize Supabase at the top
+// ✅ Initialize Supabase FIRST
 const supabaseUrl = "https://ffuwwncszlfjwdttsbnb.supabase.co";
 const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
 const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
@@ -17,12 +17,15 @@ function toggleForm() {
     }
 }
 
-// ✅ Show/Hide Password Toggle
-document.getElementById("show-password").addEventListener("change", function () {
-    let passwordFields = document.querySelectorAll(".password-input");
-    passwordFields.forEach(field => {
-        field.type = this.checked ? "text" : "password";
-    });
+// ✅ Show/Hide Password Toggle (Fixed for Both Forms)
+document.getElementById("show-password-login").addEventListener("change", function () {
+    let passwordField = document.getElementById("login-password");
+    passwordField.type = this.checked ? "text" : "password";
+});
+
+document.getElementById("show-password-signup").addEventListener("change", function () {
+    let passwordField = document.getElementById("signup-password");
+    passwordField.type = this.checked ? "text" : "password";
 });
 
 // ✅ Handle Sign Up
