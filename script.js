@@ -1,6 +1,6 @@
 // ✅ Initialize Supabase FIRST
 const supabaseUrl = "https://ffuwwncszlfjwdttsbnb.supabase.co";
-const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...";
+const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmdXd3bmNzemxmandkdHRzYm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5MTExNzYsImV4cCI6MjA1NTQ4NzE3Nn0.YZDN4nc1kJpSNgnYE7NVwdGIMxM6TE7Ss9S_jhFDVqM";
 const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
 // ✅ Toggle Login / Signup Form
