@@ -1,16 +1,22 @@
 body {
     font-family: Arial, sans-serif;
     text-align: center;
-    margin: 21px;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+}
+
+.container {
+    margin-top: 50px;
 }
 
 button {
     margin: 10px;
-    padding: 10px 15px;
+    padding: 10px 20px;
     font-size: 16px;
     cursor: pointer;
 }
 
-.form-container {
-    margin-top: 20px;
+.hidden {
+    display: none;
 }
