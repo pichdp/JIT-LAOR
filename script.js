@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     console.log("✅ Document loaded, initializing Supabase...");
 
     // ✅ Initialize Supabase
-    const supabaseUrl = "https://YOUR-PROJECT-ID.supabase.co";
-    const supabaseAnonKey = "YOUR-ANON-KEY";
+    const supabaseUrl = "https://ffuwwncszlfjwdttsbnb.supabase.co";
+    const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmdXd3bmNzemxmandkdHRzYm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5MTExNzYsImV4cCI6MjA1NTQ4NzE3Nn0.YZDN4nc1kJpSNgnYE7NVwdGIMxM6TE7Ss9S_jhFDVqM";
     const supabase = window.supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
 
     console.log("✅ Supabase initialized successfully");
