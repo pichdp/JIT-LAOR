@@ -1,10 +1,20 @@
-// ✅ 1. Supabase Configuration
-const supabaseUrl = "https://ffuwwncszlfjwdttsbnb.supabase.co";
-const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmdXd3bmNzemxmandkdHRzYm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5MTExNzYsImV4cCI6MjA1NTQ4NzE3Nn0.YZDN4nc1kJpSNgnYE7NVwdGIMxM6TE7Ss9S_jhFDVqM";
-const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
+// ✅ Ensure Supabase is properly initialized
+document.addEventListener("DOMContentLoaded", async function () {
+    // ✅ Import Supabase library correctly
+    if (typeof supabase === 'undefined') {
+        console.error("Supabase is not loaded. Check the script link.");
+        return;
+    }
 
-// ✅ 2. Wait for the page to load
-document.addEventListener("DOMContentLoaded", function () {
+    const supabaseUrl = "https://ffuwwncszlfjwdttsbnb.supabase.co";
+    const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmdXd3bmNzemxmandkdHRzYm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5MTExNzYsImV4cCI6MjA1NTQ4NzE3Nn0.YZDN4nc1kJpSNgnYE7NVwdGIMxM6TE7Ss9S_jhFDVqM";
+
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
+    
+    // ✅ Debug: Check if Supabase is loaded correctly
+    console.log("Supabase initialized:", supabaseClient);
+
+    // ✅ Elements
     const showLogin = document.getElementById("showLogin");
     const showSignup = document.getElementById("showSignup");
     const formContainer = document.getElementById("formContainer");
@@ -15,21 +25,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
     let isLogin = true; // Track form mode
 
-    // ✅ 3. Show login form
+    // ✅ Show Login Form
     showLogin.onclick = function () {
         isLogin = true;
         formTitle.innerText = "Login";
         formContainer.classList.remove("hidden");
     };
 
-    // ✅ 4. Show signup form
+    // ✅ Show Signup Form
     showSignup.onclick = function () {
         isLogin = false;
         formTitle.innerText = "Sign Up";
         formContainer.classList.remove("hidden");
     };
 
-    // ✅ 5. Handle login or signup
+    // ✅ Handle login or signup
     submitForm.onclick = async function () {
         const email = emailInput.value;
         const password = passwordInput.value;
@@ -40,8 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (isLogin) {
-            // 🔹 Login user
-            let { data, error } = await supabase.auth.signInWithPassword({
+            let { data, error } = await supabaseClient.auth.signInWithPassword({
                 email,
                 password
             });
@@ -50,11 +59,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert("Login failed: " + error.message);
             } else {
                 alert("Login successful! Welcome, " + email);
-                window.location.href = "dashboard.html"; // Redirect to another page
+                window.location.href = "dashboard.html";
             }
         } else {
-            // 🔹 Signup user
-            let { data, error } = await supabase.auth.signUp({
+            let { data, error } = await supabaseClient.auth.signUp({
                 email,
                 password
             });
@@ -62,7 +70,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (error) {
                 alert("Signup failed: " + error.message);
             } else {
-                alert("Signup successful! Please check your email to confirm.");
+                alert("Signup successful! Check your email to verify.");
             }
         }
     };
