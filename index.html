@@ -9,27 +9,32 @@
 <body>
     <div class="container">
         <div class="form-box">
-            <h2>Welcome Back</h2>
+            <h2 id="formTitle">Welcome Back</h2>
             <p>Login or sign up to continue</p>
 
             <div id="form-container">
+                <!-- Login Form -->
                 <form id="login-form">
                     <input type="email" id="login-email" placeholder="Enter your email" required>
                     <input type="password" id="login-password" placeholder="Enter your password" required>
-                    <button type="submit" id="showLogin">Login</button>
+                    <button type="submit">Login</button>
                     <p>Don't have an account? <a href="#" onclick="toggleForm()">Sign Up</a></p>
                 </form>
 
+                <!-- Signup Form (Hidden by Default) -->
                 <form id="signup-form" style="display: none;">
                     <input type="email" id="signup-email" placeholder="Enter your email" required>
                     <input type="password" id="signup-password" placeholder="Enter your password" required>
-                    <button type="submit" id="showSignup">Sign Up</button>
+                    <button type="submit">Sign Up</button>
                     <p>Already have an account? <a href="#" onclick="toggleForm()">Login</a></p>
                 </form>
             </div>
         </div>
     </div>
+
+    <!-- Supabase SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- JavaScript File -->
     <script src="script.js"></script>
 </body>
 </html>
