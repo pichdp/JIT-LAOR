@@ -3,24 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social Media Login</title>
+    <title>Sign Up | My Website</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <div class="container">
-        <h1>Welcome to My Social Media</h1>
-        <button id="showLogin">Login</button>
-        <button id="showSignup">Sign Up</button>
-        
-        <div id="formContainer" class="hidden">
-            <h2 id="formTitle">Login</h2>
-            <input type="email" id="email" placeholder="Email">
-            <input type="password" id="password" placeholder="Password">
-            <button id="submitForm">Submit</button>
+        <div class="form-box">
+            <h2>Welcome Back</h2>
+            <p>Login or sign up to continue</p>
+
+            <div id="form-container">
+                <form id="login-form">
+                    <input type="email" id="login-email" placeholder="Enter your email" required>
+                    <input type="password" id="login-password" placeholder="Enter your password" required>
+                    <button type="submit">Login</button>
+                    <p>Don't have an account? <a href="#" onclick="toggleForm()">Sign Up</a></p>
+                </form>
+
+                <form id="signup-form" style="display: none;">
+                    <input type="email" id="signup-email" placeholder="Enter your email" required>
+                    <input type="password" id="signup-password" placeholder="Enter your password" required>
+                    <button type="submit">Sign Up</button>
+                    <p>Already have an account? <a href="#" onclick="toggleForm()">Login</a></p>
+                </form>
+            </div>
         </div>
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
 </html>
