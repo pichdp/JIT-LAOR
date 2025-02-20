@@ -22,6 +22,8 @@ document.addEventListener("DOMContentLoaded", async function () {
     const submitForm = document.getElementById("submitForm");
     const emailInput = document.getElementById("email");
     const passwordInput = document.getElementById("password");
+    const usernameInput = document.getElementById("username"); // Username input field
+    const statusMessage = document.getElementById("statusMessage");
 
     let isLogin = true; // Track form mode
 
@@ -29,23 +31,29 @@ document.addEventListener("DOMContentLoaded", async function () {
     showLogin.onclick = function () {
         isLogin = true;
         formTitle.innerText = "Login";
+        usernameInput.classList.add("hidden"); // Hide username field
         formContainer.classList.remove("hidden");
+        statusMessage.textContent = "";
     };
 
     // ✅ Show Signup Form
     showSignup.onclick = function () {
         isLogin = false;
         formTitle.innerText = "Sign Up";
+        usernameInput.classList.remove("hidden"); // Show username field
         formContainer.classList.remove("hidden");
+        statusMessage.textContent = "";
     };
 
     // ✅ Handle login or signup
     submitForm.onclick = async function () {
-        const email = emailInput.value;
-        const password = passwordInput.value;
+        const email = emailInput.value.trim();
+        const password = passwordInput.value.trim();
+        const username = usernameInput.value.trim();
 
-        if (!email || !password) {
-            alert("Please enter both email and password.");
+        if (!email || !password || (isLogin === false && !username)) {
+            statusMessage.textContent = "Please fill in all fields.";
+            statusMessage.style.color = "red";
             return;
         }
 
@@ -56,9 +64,11 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
 
             if (error) {
-                alert("Login failed: " + error.message);
+                statusMessage.textContent = "Login failed: " + error.message;
+                statusMessage.style.color = "red";
             } else {
-                alert("Login successful! Welcome, " + email);
+                statusMessage.textContent = "Login successful! Welcome, " + email;
+                statusMessage.style.color = "green";
                 window.location.href = "dashboard.html";
             }
         } else {
@@ -68,9 +78,21 @@ document.addEventListener("DOMContentLoaded", async function () {
             });
 
             if (error) {
-                alert("Signup failed: " + error.message);
+                statusMessage.textContent = "Signup failed: " + error.message;
+                statusMessage.style.color = "red";
             } else {
-                alert("Signup successful! Check your email to verify.");
+                // ✅ Store the username in the Supabase database
+                const { error: dbError } = await supabaseClient.from("users").insert([
+                    { id: data.user.id, username }
+                ]);
+
+                if (dbError) {
+                    statusMessage.textContent = "Error saving username: " + dbError.message;
+                    statusMessage.style.color = "red";
+                } else {
+                    statusMessage.textContent = "Signup successful! Check your email to verify.";
+                    statusMessage.style.color = "green";
+                }
             }
         }
     };
