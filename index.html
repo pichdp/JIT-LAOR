@@ -14,10 +14,16 @@
         
         <div id="formContainer" class="hidden">
             <h2 id="formTitle">Login</h2>
+            
+            <!-- Username field (only shown for Sign Up) -->
+            <input type="text" id="username" placeholder="Username" class="hidden">
+
             <input type="email" id="email" placeholder="Email">
             <input type="password" id="password" placeholder="Password">
             <button id="submitForm">Submit</button>
         </div>
+        
+        <p id="statusMessage"></p>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
