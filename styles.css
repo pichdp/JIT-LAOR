@@ -1,63 +1,52 @@
+/* General Body Styles */
 body {
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background: linear-gradient(to right, #6a11cb, #2575fc);
-    margin: 0;
-}
-
-.container {
-    width: 90%;
-    max-width: 400px;
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
+    font-family: 'Arial', sans-serif;
     text-align: center;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-    position: relative;
+    margin: 0;
+    padding: 0;
+    background-color: #f0f0f0;
+    color: #333;
+    line-height: 1.6;
 }
 
-.logo {
-    width: 50px;
-    position: absolute;
-    top: 10px;
-    left: 10px;
+/* Container Style */
+.container {
+    margin-top: 60px;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
-h2 {
-    margin-bottom: 5px;
-}
-
-p {
-    color: gray;
-}
-
-input {
-    width: 90%;
-    padding: 10px;
-    margin: 10px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
+/* Button Styles */
 button {
-    width: 100%;
-    padding: 10px;
-    background: #6a11cb;
+    margin: 12px;
+    padding: 12px 24px;
+    font-size: 18px;
+    cursor: pointer;
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
+/* Hover Effect for Buttons */
 button:hover {
-    background: #4e0ba3;
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
-label {
-    display: block;
-    margin: 10px 0;
-    font-size: 14px;
+/* Hidden Class */
+.hidden {
+    display: none;
+}
+
+/* Optional: Adding Focus Effect for Accessibility */
+button:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.6);
 }
