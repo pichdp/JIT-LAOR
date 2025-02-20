@@ -1,6 +1,5 @@
 // ✅ Ensure Supabase is properly initialized
 document.addEventListener("DOMContentLoaded", async function () {
-    // ✅ Import Supabase library correctly
     if (typeof supabase === 'undefined') {
         console.error("Supabase is not loaded. Check the script link.");
         return;
@@ -11,7 +10,6 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
     
-    // ✅ Debug: Check if Supabase is loaded correctly
     console.log("Supabase initialized:", supabaseClient);
 
     // ✅ Elements
@@ -20,18 +18,19 @@ document.addEventListener("DOMContentLoaded", async function () {
     const formContainer = document.getElementById("formContainer");
     const formTitle = document.getElementById("formTitle");
     const submitForm = document.getElementById("submitForm");
-    const emailInput = document.getElementById("email");
+    const emailOrUsernameInput = document.getElementById("email"); // Can be email or username
     const passwordInput = document.getElementById("password");
-    const usernameInput = document.getElementById("username"); // Username input field
+    const usernameInput = document.getElementById("username"); // Only for signup
     const statusMessage = document.getElementById("statusMessage");
 
-    let isLogin = true; // Track form mode
+    let isLogin = true;
 
     // ✅ Show Login Form
     showLogin.onclick = function () {
         isLogin = true;
         formTitle.innerText = "Login";
         usernameInput.classList.add("hidden"); // Hide username field
+        emailOrUsernameInput.placeholder = "Email or Username"; // Update placeholder
         formContainer.classList.remove("hidden");
         statusMessage.textContent = "";
     };
@@ -41,24 +40,44 @@ document.addEventListener("DOMContentLoaded", async function () {
         isLogin = false;
         formTitle.innerText = "Sign Up";
         usernameInput.classList.remove("hidden"); // Show username field
+        emailOrUsernameInput.placeholder = "Email"; // Change placeholder back
         formContainer.classList.remove("hidden");
         statusMessage.textContent = "";
     };
 
     // ✅ Handle login or signup
     submitForm.onclick = async function () {
-        const email = emailInput.value.trim();
-        const password = passwordInput.value.trim();
-        const username = usernameInput.value.trim();
+        let emailOrUsername = emailOrUsernameInput.value.trim();
+        let password = passwordInput.value.trim();
+        let username = usernameInput.value.trim();
 
-        if (!email || !password || (isLogin === false && !username)) {
+        if (!emailOrUsername || !password || (isLogin === false && !username)) {
             statusMessage.textContent = "Please fill in all fields.";
             statusMessage.style.color = "red";
             return;
         }
 
         if (isLogin) {
-            let { data, error } = await supabaseClient.auth.signInWithPassword({
+            let email = emailOrUsername;
+
+            // ✅ If input is not an email, try looking up the email from the username
+            if (!email.includes("@")) {
+                let { data, error } = await supabaseClient
+                    .from("users")
+                    .select("id, email")
+                    .eq("username", emailOrUsername)
+                    .single();
+
+                if (error || !data) {
+                    statusMessage.textContent = "User not found.";
+                    statusMessage.style.color = "red";
+                    return;
+                }
+                
+                email = data.email; // Use retrieved email for login
+            }
+
+            let { error } = await supabaseClient.auth.signInWithPassword({
                 email,
                 password
             });
@@ -67,13 +86,13 @@ document.addEventListener("DOMContentLoaded", async function () {
                 statusMessage.textContent = "Login failed: " + error.message;
                 statusMessage.style.color = "red";
             } else {
-                statusMessage.textContent = "Login successful! Welcome, " + email;
+                statusMessage.textContent = "Login successful! Redirecting...";
                 statusMessage.style.color = "green";
                 window.location.href = "dashboard.html";
             }
         } else {
             let { data, error } = await supabaseClient.auth.signUp({
-                email,
+                email: emailOrUsername,
                 password
             });
 
@@ -81,9 +100,9 @@ document.addEventListener("DOMContentLoaded", async function () {
                 statusMessage.textContent = "Signup failed: " + error.message;
                 statusMessage.style.color = "red";
             } else {
-                // ✅ Store the username in the Supabase database
+                // ✅ Store the username in the database
                 const { error: dbError } = await supabaseClient.from("users").insert([
-                    { id: data.user.id, username }
+                    { id: data.user.id, email: emailOrUsername, username }
                 ]);
 
                 if (dbError) {
