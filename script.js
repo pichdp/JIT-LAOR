@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             } else {
                 statusMessage.textContent = "Login successful! Redirecting...";
                 statusMessage.style.color = "green";
-                window.location.href = "dashboard.html";
+                window.location.href = "feed.html";
             }
         } else {
             let { data, error } = await supabaseClient.auth.signUp({
