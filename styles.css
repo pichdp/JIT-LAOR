@@ -9,6 +9,23 @@ body {
     color: #333;
     line-height: 1.6;
 }
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: radial-gradient(white 2px, transparent 2px);
+    background-size: 50px 50px;
+    opacity: 0.2;
+    animation: moveParticles 10s linear infinite;
+}
+
+@keyframes moveParticles {
+    from { transform: translateY(0); }
+    to { transform: translateY(-100px); }
+}
 
 header {
     display: flex;
