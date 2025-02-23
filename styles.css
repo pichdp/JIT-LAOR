@@ -4,11 +4,22 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
-    background-color: #121212;
+    background: linear-gradient(45deg, #121212, #1c1c1c, #242424);
+    background-size: 400% 400%;
+    animation: backgroundAnimation 10s infinite ease-in-out;
     overflow: hidden;
     color: #333;
     line-height: 1.6;
 }
+
+/* Background Animation */
+@keyframes backgroundAnimation {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Particle Effect */
 body::before {
     content: "";
     position: absolute;
@@ -18,7 +29,7 @@ body::before {
     height: 100%;
     background-image: radial-gradient(white 2px, transparent 2px);
     background-size: 50px 50px;
-    opacity: 0.2;
+    opacity: 0.1;
     animation: moveParticles 10s linear infinite;
 }
 
@@ -27,67 +38,30 @@ body::before {
     to { transform: translateY(-100px); }
 }
 
+/* Header Section */
 header {
     display: flex;
     align-items: center;
-    padding: 10px;
-    background-color: #222; /* Adjust as needed */
+    padding: 12px 20px;
+    background-color: #222;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* Logo Styling */
 .logo {
-    width: 40px; /* Adjust size */
+    width: 40px;
     height: auto;
     margin-right: 10px;
 }
 
+/* Brand Name */
 .brand-name {
     color: white;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: bold;
 }
 
-
-/* Container Style */
-.container {
-    margin-top: 60px;
-    padding: 20px;
-    background-color: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    max-width: 600px;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-/* Button Styles */
-button {
-    margin: 12px;
-    padding: 12px 24px;
-    font-size: 18px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-/* Hover Effect for Buttons */
-button:hover {
-    background-color: #0056b3;
-    transform: translateY(-2px);
-}
-
-/* Hidden Class */
-.hidden {
-    display: none;
-}
-
-/* Optional: Adding Focus Effect for Accessibility */
-button:focus {
-    outline: none;
-    box-shadow: 0 0 5px rgba(0, 123, 255, 0.6);
-}
+/* Form Container */
 #formContainer {
     width: 100%;
     max-width: 350px;
@@ -99,25 +73,59 @@ button:focus {
     text-align: center;
 }
 
+/* Form Title */
 #formContainer h2 {
     margin-bottom: 15px;
     color: #333;
 }
 
+/* Input Fields */
 input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     margin: 10px 0;
     border: 1px solid #ccc;
-    border-radius: 5px;
+    border-radius: 8px;
     font-size: 16px;
     transition: 0.3s;
+    background-color: #f9f9f9;
+    box-shadow: inset 0px 2px 4px rgba(0, 0, 0, 0.05);
 }
 
+/* Input Focus Effect */
 input:focus {
     border-color: #007bff;
-    box-shadow: 0px 0px 5px rgba(0, 123, 255, 0.5);
+    box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
     outline: none;
 }
 
+/* Buttons */
+button {
+    margin: 12px;
+    padding: 12px 24px;
+    font-size: 18px;
+    cursor: pointer;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    transition: 0.3s;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
 
+/* Button Hover Effect */
+button:hover {
+    background: linear-gradient(135deg, #0056b3, #004099);
+    transform: translateY(-2px);
+}
+
+/* Button Focus Effect */
+button:focus {
+    outline: none;
+    box-shadow: 0px 0px 10px rgba(0, 123, 255, 0.6);
+}
+
+/* Hide Elements */
+.hidden {
+    display: none;
+}
