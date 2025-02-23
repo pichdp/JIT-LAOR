@@ -9,6 +9,26 @@ body {
     line-height: 1.6;
 }
 
+header {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: #222; /* Adjust as needed */
+}
+
+.logo {
+    width: 40px; /* Adjust size */
+    height: auto;
+    margin-right: 10px;
+}
+
+.brand-name {
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+
 /* Container Style */
 .container {
     margin-top: 60px;
