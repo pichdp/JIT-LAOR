@@ -4,7 +4,8 @@ body {
     text-align: center;
     margin: 0;
     padding: 0;
-    background-color: #f0f0f0;
+    background-color: #121212;
+    overflow: hidden;
     color: #333;
     line-height: 1.6;
 }
