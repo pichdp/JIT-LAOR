@@ -3,29 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Social Media Feed</title>
+    <title>Feed Page</title>
     <link rel="stylesheet" href="feed.css">
+    <script src="https://unpkg.com/@supabase/supabase-js"></script>
 </head>
 <body>
 
-    <header>
-        <img src="logo.png" alt="Logo" class="logo">
-        <h1>My Social Media</h1>
-    </header>
-
     <div class="container">
-        <div class="post-box">
-            <textarea id="postContent" placeholder="What's on your mind?"></textarea>
-            <button id="postButton">Post</button>
-        </div>
+        <h1>Welcome to the Feed</h1>
+
+        <p id="userEmail">Loading...</p> <!-- Show logged-in user -->
+
+        <textarea id="postContent" placeholder="Write something..."></textarea>
+        <button id="postButton">Post</button>
+        <button id="logoutButton">Logout</button> <!-- Logout button -->
 
         <div id="feed"></div>
     </div>
 
-    <!-- Load Supabase SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-    
-    <!-- Load our script -->
-    <script src="feed.js"></script>
+    <script src="feed.js"></script> <!-- Load feed.js -->
 </body>
 </html>
