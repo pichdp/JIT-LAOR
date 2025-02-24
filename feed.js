@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
     // Function to Fetch Posts from Supabase
     async function loadPosts() {
-        const { data, error } = await supabase.from("posts").select("*").order("id", { ascending: false });
+        const { data, error } = await supabaseClient.from("posts").select("*").order("id", { ascending: false });
 
         if (error) {
             console.error("Error fetching posts:", error);
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async function () {
         const content = postContent.value.trim();
         if (!content) return;
 
-        const { error } = await supabase.from("posts").insert([{ content }]);
+        const { error } = await supabaseClient.from("posts").insert([{ content }]);
 
         if (error) {
             console.error("Error adding post:", error);
