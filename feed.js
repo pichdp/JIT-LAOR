@@ -31,13 +31,12 @@ document.addEventListener("DOMContentLoaded", async function () {
         }
     }
 
-    // ✅ Function to Fetch Posts from Supabase with Username
+    // ✅ Function to Fetch Posts from Supabase with Usernames
     async function loadPosts() {
         const { data, error } = await supabaseClient
             .from("posts")
-            .select("content, user_id, users(username)")
-            .order("id", { ascending: false })
-            .eq("posts.user_id", "users.id"); // Joins posts with users table
+            .select("content, user_id, users:users(username)")
+            .order("id", { ascending: false });
 
         if (error) {
             console.error("Error fetching posts:", error);
@@ -49,7 +48,7 @@ document.addEventListener("DOMContentLoaded", async function () {
 
         // Display Posts with Username
         data.forEach(post => {
-            const username = post.users?.username || "Anonymous"; // Show username or default to "Anonymous"
+            const username = post.users ? post.users.username : "Anonymous"; // Show username or default to "Anonymous"
 
             const postElement = document.createElement("div");
             postElement.classList.add("post");
@@ -64,21 +63,21 @@ document.addEventListener("DOMContentLoaded", async function () {
         });
     }
 
-    // ✅ Function to Add Post to Supabase with User ID
+    // ✅ Function to Add Post to Supabase
     async function addPost() {
         const content = postContent.value.trim();
         if (!content) return;
 
-        // Get logged-in user
-        const { data: { user } } = await supabaseClient.auth.getUser();
-        if (!user) {
-            alert("You must be logged in to post!");
+        // Get current user ID
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+            alert("You must be logged in to post.");
             return;
         }
 
-        const { error } = await supabaseClient.from("posts").insert([
-            { content, user_id: user.id } // Save post with user ID
-        ]);
+        const userId = session.user.id; // Get the logged-in user's ID
+
+        const { error } = await supabaseClient.from("posts").insert([{ content, user_id: userId }]);
 
         if (error) {
             console.error("Error adding post:", error);
@@ -104,4 +103,4 @@ document.addEventListener("DOMContentLoaded", async function () {
     // ✅ Load Posts on Page Load
     checkAuth(); // Ensure the user is logged in before loading feed
     loadPosts();
-});
+}); // <-- Closing bracket was missing
