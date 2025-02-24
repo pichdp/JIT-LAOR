@@ -1,13 +1,16 @@
-// ✅ Initialize Supabase globally
-const supabaseUrl = "https://ffuwwncszlfjwdttsbnb.supabase.co";
-const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmdXd3bmNzemxmandkdHRzYm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5MTExNzYsImV4cCI6MjA1NTQ4NzE3Nn0.YZDN4nc1kJpSNgnYE7NVwdGIMxM6TE7Ss9S_jhFDVqM";
+// ✅ Ensure Supabase is properly initialized
+document.addEventListener("DOMContentLoaded", async function () {
+    if (typeof supabase === 'undefined') {
+        console.error("Supabase is not loaded. Check the script link.");
+        return;
+    }
 
-// Create the Supabase client globally so it can be used anywhere
-const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
+    const supabaseUrl = "https://ffuwwncszlfjwdttsbnb.supabase.co";
+    const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmdXd3bmNzemxmandkdHRzYm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5MTExNzYsImV4cCI6MjA1NTQ4NzE3Nn0.YZDN4nc1kJpSNgnYE7NVwdGIMxM6TE7Ss9S_jhFDVqM";
 
-// Wait for the DOM to be fully loaded before running any script
-document.addEventListener("DOMContentLoaded", function () {
-    console.log("Supabase initialized:", supabase);
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
+    
+    console.log("Supabase initialized:", supabaseClient);
 
     // DOM Elements
     const postButton = document.getElementById("postButton");
@@ -30,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
         data.forEach(post => {
             const postElement = document.createElement("div");
             postElement.classList.add("post");
-            postElement.innerHTML = `<p>${post.content}</p>`;
+            postElement.innerHTML = `<p>${post.content}</p>`; // Fixed template string
             feed.appendChild(postElement);
         });
     }
@@ -52,13 +55,9 @@ document.addEventListener("DOMContentLoaded", function () {
         loadPosts();
     }
 
-    // ✅ Ensure postButton exists before adding event listener
-    if (postButton) {
-        postButton.addEventListener("click", addPost);
-    } else {
-        console.error("postButton not found in DOM!");
-    }
+    // Event Listener for Post Button
+    postButton.addEventListener("click", addPost);
 
     // Load Posts on Page Load
-    loadPosts();
-});
+    window.onload = loadPosts;
+}); // <-- Closing bracket was missing
