@@ -3,14 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Social Feed</title>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <title>Social Media Feed</title>
     <link rel="stylesheet" href="feed.css">
 </head>
 <body>
+
+    <header>
+        <img src="logo.png" alt="Logo" class="logo">
+        <h1>My Social Media</h1>
+    </header>
+
     <div class="container">
-        <h1>Welcome to My Social Media</h1>
-        
         <div class="post-box">
             <textarea id="postContent" placeholder="What's on your mind?"></textarea>
             <button id="postButton">Post</button>
@@ -19,6 +22,10 @@
         <div id="feed"></div>
     </div>
 
+    <!-- Load Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    
+    <!-- Load our script -->
     <script src="feed.js"></script>
 </body>
 </html>
