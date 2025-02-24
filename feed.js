@@ -1,7 +1,16 @@
-// Initialize Supabase
-const supabaseUrl = "https://ffuwwncszlfjwdttsbnb.supabase.co";  // Replace with your Supabase URL
-const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmdXd3bmNzemxmandkdHRzYm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5MTExNzYsImV4cCI6MjA1NTQ4NzE3Nn0.YZDN4nc1kJpSNgnYE7NVwdGIMxM6TE7Ss9S_jhFDVqM";  // Replace with your Supabase Key
-const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+// ✅ Ensure Supabase is properly initialized
+document.addEventListener("DOMContentLoaded", async function () {
+    if (typeof supabase === 'undefined') {
+        console.error("Supabase is not loaded. Check the script link.");
+        return;
+    }
+
+    const supabaseUrl = "https://ffuwwncszlfjwdttsbnb.supabase.co";
+    const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmdXd3bmNzemxmandkdHRzYm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5MTExNzYsImV4cCI6MjA1NTQ4NzE3Nn0.YZDN4nc1kJpSNgnYE7NVwdGIMxM6TE7Ss9S_jhFDVqM";
+
+    const supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
+    
+    console.log("Supabase initialized:", supabaseClient);
 
 // DOM Elements
 const postButton = document.getElementById("postButton");
