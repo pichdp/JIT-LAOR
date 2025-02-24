@@ -1,56 +1,53 @@
-window.onload = function () {
-    // Supabase Setup
-    const SUPABASE_URL = "https://ffuwwncszlfjwdttsbnb.supabase.co";
-    const SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmdXd3bmNzemxmandkdHRzYm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5MTExNzYsImV4cCI6MjA1NTQ4NzE3Nn0.YZDN4nc1kJpSNgnYE7NVwdGIMxM6TE7Ss9S_jhFDVqM";
-    const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+// Initialize Supabase
+const supabaseUrl = "https://ffuwwncszlfjwdttsbnb.supabase.co";  // Replace with your Supabase URL
+const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmdXd3bmNzemxmandkdHRzYm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5MTExNzYsImV4cCI6MjA1NTQ4NzE3Nn0.YZDN4nc1kJpSNgnYE7NVwdGIMxM6TE7Ss9S_jhFDVqM";  // Replace with your Supabase Key
+const supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    const postButton = document.getElementById("postButton");
-    const postContent = document.getElementById("postContent");
-    const feed = document.getElementById("feed");
+// DOM Elements
+const postButton = document.getElementById("postButton");
+const postContent = document.getElementById("postContent");
+const feed = document.getElementById("feed");
 
-    if (!postButton || !postContent || !feed) {
-        console.error("Error: One or more elements not found!");
+// Function to Fetch Posts from Supabase
+async function loadPosts() {
+    const { data, error } = await supabase.from("posts").select("*").order("id", { ascending: false });
+
+    if (error) {
+        console.error("Error fetching posts:", error);
         return;
     }
 
-    // Function to fetch posts from Supabase
-    async function fetchPosts() {
-        let { data, error } = await supabase
-            .from("posts")
-            .select("*")
-            .order("created_at", { ascending: false });
+    // Clear Feed
+    feed.innerHTML = "";
 
-        if (error) {
-            console.error("Error fetching posts:", error);
-            return;
-        }
+    // Display Posts
+    data.forEach(post => {
+        const postElement = document.createElement("div");
+        postElement.classList.add("post");
+        postElement.innerHTML = `<p>${post.content}</p>`;
+        feed.appendChild(postElement);
+    });
+}
 
-        feed.innerHTML = ""; // Clear feed before adding posts
-        data.forEach(post => {
-            let postDiv = document.createElement("div");
-            postDiv.classList.add("post");
-            postDiv.innerHTML = `<p>${post.content}</p>`;
-            feed.appendChild(postDiv);
-        });
+// Function to Add Post to Supabase
+async function addPost() {
+    const content = postContent.value.trim();
+    if (!content) return;
+
+    const { error } = await supabase.from("posts").insert([{ content }]);
+
+    if (error) {
+        console.error("Error adding post:", error);
+        return;
     }
 
-    // Function to add a new post
-    postButton.onclick = async function () {
-        let content = postContent.value.trim();
-        if (content === "") return;
+    // Clear input and refresh feed
+    postContent.value = "";
+    loadPosts();
+}
 
-        let { error } = await supabase
-            .from("posts")
-            .insert([{ content }]);
+// Event Listener for Post Button
+postButton.addEventListener("click", addPost);
 
-        if (error) {
-            console.error("Error adding post:", error);
-        } else {
-            postContent.value = ""; // Clear input
-            fetchPosts(); // Refresh feed
-        }
-    };
-
-    // Load posts when page loads
-    fetchPosts();
-};
+// Load Posts on Page Load
+window.onload = loadPosts;
