@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     async function loadPosts() {
         const { data, error } = await supabaseClient
             .from("posts")
-            .select("content, user_id, users:users(username)")
+            .select("content, user_id, users(username)") // Ensure 'users' is the correct reference
             .order("id", { ascending: false });
 
         if (error) {
@@ -103,4 +103,4 @@ document.addEventListener("DOMContentLoaded", async function () {
     // ✅ Load Posts on Page Load
     checkAuth(); // Ensure the user is logged in before loading feed
     loadPosts();
-}); // <-- Closing bracket was missing
+});
