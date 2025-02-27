@@ -14,11 +14,34 @@
 
         <p id="userEmail">Loading...</p> <!-- Show logged-in user -->
 
+        <!-- ✅ Profile Section -->
+        <div class="profile-section">
+            <img id="profilePicture" src="default-avatar.png" alt="Profile Picture">
+            <p id="username">User Name</p>
+            <button id="editProfile">Edit Profile</button>
+        </div>
+
+        <!-- ✅ Post Box with Image Upload -->
         <textarea id="postContent" placeholder="Write something..."></textarea>
+        <input type="file" id="imageUpload" accept="image/*">
+        <img id="previewImage" src="" alt="Image Preview" style="display: none;">
         <button id="postButton">Post</button>
         <button id="logoutButton">Logout</button> <!-- Logout button -->
 
+        <!-- ✅ Feed Section -->
         <div id="feed"></div>
+
+        <!-- ✅ Notifications -->
+        <div id="notifications">
+            <p>No new notifications</p>
+        </div>
+
+        <!-- ✅ Dark Mode Toggle -->
+        <label class="switch">
+            <input type="checkbox" id="darkModeToggle">
+            <span class="slider round"></span>
+        </label>
+
     </div>
 
     <script src="feed.js"></script> <!-- Load feed.js -->
