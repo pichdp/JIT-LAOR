@@ -6,12 +6,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     }
 
     const supabaseUrl = "https://ffuwwncszlfjwdttsbnb.supabase.co";
-    const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmdXd3bmNzemxmandkdHRzYm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5MTExNzYsImV4cCI6MjA1NTQ4NzE3Nn0.YZDN4nc1kJpSNgnYE7NVwdGIMxM6TE7Ss9S_jhFDVqM"; // Ensure your anon key is correct
+    const supabaseAnonKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZmdXd3bmNzemxmandkdHRzYm5iIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk5MTExNzYsImV4cCI6MjA1NTQ4NzE3Nn0.YZDN4nc1kJpSNgnYE7NVwdGIMxM6TE7Ss9S_jhFDVqM";
     const supabaseClient = supabase.createClient(supabaseUrl, supabaseAnonKey);
     
-    console.log("Supabase initialized:", supabaseClient);
+    console.log("✅ Supabase initialized");
 
-    // DOM Elements
+    // ✅ DOM Elements
     const postButton = document.getElementById("postButton");
     const postContent = document.getElementById("postContent");
     const imageUpload = document.getElementById("imageUpload");
@@ -30,10 +30,11 @@ document.addEventListener("DOMContentLoaded", async function () {
         if (!session) {
             alert("You must log in first!");
             window.location.href = "index.html"; 
-        } else {
-            userEmail.innerText = `Logged in as: ${session.user.email}`;
-            loadUserProfile(session.user.id);
+            return;
         }
+
+        userEmail.innerText = `Logged in as: ${session.user.email}`;
+        loadUserProfile(session.user.id);
     }
 
     // ✅ Load User Profile
@@ -45,12 +46,12 @@ document.addEventListener("DOMContentLoaded", async function () {
             .single();
         
         if (error) {
-            console.error("Error fetching user profile:", error);
+            console.error("⚠️ Error fetching user profile:", error);
             return;
         }
 
         usernameDisplay.innerText = data.username || "User";
-        profilePicture.src = data.profile_picture || "default-avatar.png"; // Default image fallback
+        profilePicture.src = data.profile_picture || "default-avatar.png"; 
     }
 
     // ✅ Load Posts
@@ -61,7 +62,7 @@ document.addEventListener("DOMContentLoaded", async function () {
             .order("id", { ascending: false });
         
         if (error) {
-            console.error("Error fetching posts:", error);
+            console.error("⚠️ Error fetching posts:", error);
             return;
         }
 
@@ -114,7 +115,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     async function loadLikes() {
         const { data, error } = await supabaseClient.from("likes").select("post_id");
         if (error) {
-            console.error("Error loading likes:", error);
+            console.error("⚠️ Error loading likes:", error);
             return;
         }
 
@@ -138,7 +139,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     async function loadComments() {
         const { data, error } = await supabaseClient.from("comments").select("post_id, content");
         if (error) {
-            console.error("Error loading comments:", error);
+            console.error("⚠️ Error loading comments:", error);
             return;
         }
 
@@ -149,6 +150,24 @@ document.addEventListener("DOMContentLoaded", async function () {
                 .map(comment => `<p>${comment.content}</p>`)
                 .join("");
         });
+    }
+
+    // ✅ Logout Function
+    logoutButton.addEventListener("click", async () => {
+        await supabaseClient.auth.signOut();
+        window.location.href = "index.html";
+    });
+
+    // ✅ Dark Mode Toggle
+    darkModeToggle.addEventListener("change", () => {
+        document.body.classList.toggle("dark-mode");
+        localStorage.setItem("darkMode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
+    });
+
+    // ✅ Keep Dark Mode Setting
+    if (localStorage.getItem("darkMode") === "enabled") {
+        document.body.classList.add("dark-mode");
+        darkModeToggle.checked = true;
     }
 
     // ✅ Initialize Feed
