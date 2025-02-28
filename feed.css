@@ -6,9 +6,15 @@ body {
     padding: 0;
     background: linear-gradient(to right, #141E30, #243B55);
     color: white;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-/* Container */
+/* Dark Mode */
+body.dark-mode {
+    background: #121212;
+    color: #ddd;
+}
+
 .container {
     width: 90%;
     max-width: 600px;
@@ -18,6 +24,12 @@ body {
     border-radius: 12px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     color: black;
+    transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+body.dark-mode .container {
+    background: #222;
+    color: white;
 }
 
 /* Header */
@@ -31,6 +43,27 @@ h1 {
     font-size: 14px;
     color: #555;
     margin-bottom: 15px;
+}
+
+/* ✅ Profile Section */
+.profile-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+#profilePicture {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    border: 2px solid #007bff;
+}
+
+#username {
+    font-size: 16px;
+    font-weight: bold;
 }
 
 /* Post Box */
@@ -83,8 +116,14 @@ button:hover {
     margin-bottom: 12px;
     box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     text-align: left;
+    transition: background 0.3s ease-in-out;
 }
 
+body.dark-mode .post {
+    background: #333;
+}
+
+/* Post Header */
 .post-header {
     display: flex;
     align-items: center;
@@ -100,4 +139,98 @@ button:hover {
     font-size: 15px;
     color: #333;
     margin: 0;
+}
+
+body.dark-mode .post p {
+    color: #ddd;
+}
+
+/* Post Images */
+.post-image {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+/* Like & Comment Buttons */
+.like-button, .comment-button {
+    background: none;
+    border: none;
+    color: #007bff;
+    font-size: 14px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.like-button:hover, .comment-button:hover {
+    text-decoration: underline;
+}
+
+/* Like Count */
+.like-count {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+/* ✅ Notifications */
+#notifications {
+    background: #ffeb3b;
+    color: #333;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 20px;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+body.dark-mode #notifications {
+    background: #444;
+    color: #fff;
+}
+
+/* ✅ Dark Mode Toggle */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 34px;
+    height: 20px;
+    margin-top: 10px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 20px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 14px;
+    width: 14px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #007bff;
+}
+
+input:checked + .slider:before {
+    transform: translateX(14px);
 }
