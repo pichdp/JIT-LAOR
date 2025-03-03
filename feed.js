@@ -90,36 +90,58 @@ document.addEventListener("DOMContentLoaded", async function () {
         loadComments();
     }
 
-    // ✅ Handle Post Button Click
-postButton.addEventListener("click", async () => {
-    const content = postContent.value.trim();
-    if (!content) {
-        alert("Post content cannot be empty!");
-        return;
-    }
+    // ✅ Handle Post Button Click (with Image Upload)
+    postButton.addEventListener("click", async () => {
+        const content = postContent.value.trim();
+        const file = imageUpload.files[0]; // Get selected image file
 
-    // Get the currently logged-in user
-    const { data: { session } } = await supabaseClient.auth.getSession();
-    if (!session) {
-        alert("You need to log in first!");
-        return;
-    }
+        if (!content && !file) {
+            alert("Post cannot be empty!");
+            return;
+        }
 
-    // Insert post into Supabase
-    const { error } = await supabaseClient.from("posts").insert([
-        { user_id: session.user.id, content: content }
-    ]);
+        // Get the currently logged-in user
+        const { data: { session } } = await supabaseClient.auth.getSession();
+        if (!session) {
+            alert("You need to log in first!");
+            return;
+        }
 
-    if (error) {
-        console.error("⚠️ Error posting:", error);
-        alert("Failed to post!");
-        return;
-    }
+        let imageUrl = null;
 
-    // Clear post input and reload posts
-    postContent.value = "";
-    loadPosts();
-});
+        // ✅ Upload Image if Exists
+        if (file) {
+            const fileName = `${session.user.id}_${Date.now()}_${file.name}`;
+            const { error: uploadError } = await supabaseClient.storage
+                .from("images") // Ensure this bucket exists in Supabase
+                .upload(fileName, file);
+
+            if (uploadError) {
+                console.error("⚠️ Image Upload Error:", uploadError);
+                alert("Image upload failed!");
+                return;
+            }
+
+            imageUrl = `https://ffuwwncszlfjwdttsbnb.supabase.co/storage/v1/object/public/images/${fileName}`;
+        }
+
+        // ✅ Insert post into Supabase
+        const { error: postError } = await supabaseClient.from("posts").insert([
+            { user_id: session.user.id, content: content, image_url: imageUrl }
+        ]);
+
+        if (postError) {
+            console.error("⚠️ Post Error:", postError);
+            alert("Failed to post!");
+            return;
+        }
+
+        // ✅ Clear inputs and refresh posts
+        postContent.value = "";
+        imageUpload.value = "";
+        previewImage.style.display = "none";
+        loadPosts();
+    });
 
     // ✅ Attach Event Listeners
     function attachEventListeners() {
@@ -181,24 +203,6 @@ postButton.addEventListener("click", async () => {
                 .map(comment => `<p>${comment.content}</p>`)
                 .join("");
         });
-    }
-
-    // ✅ Logout Function
-    logoutButton.addEventListener("click", async () => {
-        await supabaseClient.auth.signOut();
-        window.location.href = "index.html";
-    });
-
-    // ✅ Dark Mode Toggle
-    darkModeToggle.addEventListener("change", () => {
-        document.body.classList.toggle("dark-mode");
-        localStorage.setItem("darkMode", document.body.classList.contains("dark-mode") ? "enabled" : "disabled");
-    });
-
-    // ✅ Keep Dark Mode Setting
-    if (localStorage.getItem("darkMode") === "enabled") {
-        document.body.classList.add("dark-mode");
-        darkModeToggle.checked = true;
     }
 
     // ✅ Initialize Feed
