@@ -90,6 +90,37 @@ document.addEventListener("DOMContentLoaded", async function () {
         loadComments();
     }
 
+    // ✅ Handle Post Button Click
+postButton.addEventListener("click", async () => {
+    const content = postContent.value.trim();
+    if (!content) {
+        alert("Post content cannot be empty!");
+        return;
+    }
+
+    // Get the currently logged-in user
+    const { data: { session } } = await supabaseClient.auth.getSession();
+    if (!session) {
+        alert("You need to log in first!");
+        return;
+    }
+
+    // Insert post into Supabase
+    const { error } = await supabaseClient.from("posts").insert([
+        { user_id: session.user.id, content: content }
+    ]);
+
+    if (error) {
+        console.error("⚠️ Error posting:", error);
+        alert("Failed to post!");
+        return;
+    }
+
+    // Clear post input and reload posts
+    postContent.value = "";
+    loadPosts();
+});
+
     // ✅ Attach Event Listeners
     function attachEventListeners() {
         document.querySelectorAll(".like-button").forEach(button => {
